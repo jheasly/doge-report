@@ -20,7 +20,8 @@ jobs:
         activate-environment: true
         enable-cache: true
     
-    - run: uv pip sync # install from uv.lock
+    - name: Sync from uv.lock
+      run: uv sync --frozen # fails CI if the lockfile is out of date
 
     - name: Run doge-data-download.py with different arguments, create .csv, .xlsx files
       run: |
