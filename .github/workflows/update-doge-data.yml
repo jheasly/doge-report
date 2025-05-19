@@ -13,12 +13,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Run doge-data-download.py with different arguments
+    - name: Run doge-data-download.py with different arguments, create .csv, .xlsx files
       run: |
         cd data
-        python doge-data-download.py grants
-        python doge-data-download.py contracts
-        python doge-data-download.py leases
+        python doge-data-download.py grants --format csv
+        python doge-data-download.py contracts --format csv
+        python doge-data-download.py leases --format csv
+        cd ../tools/
+        python csv_to_excel.py
         cd ..
 
     - name: Commit and push if there are changes
