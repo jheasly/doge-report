@@ -11,7 +11,16 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+
+    - name: Install uv + Python and activate env
+      uses: astral-sh/setup-uv@v6
+      with:
+        python-version: '3.12'
+        activate-environment: true
+        enable-cache: true
+    
+    - run: uv pip sync # install from uv.lock
 
     - name: Run doge-data-download.py with different arguments, create .csv, .xlsx files
       run: |
