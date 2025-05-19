@@ -2,8 +2,8 @@ name: Update Doge Data
 
 on:
   schedule:
-    - cron: '0 3 * * *'  # Runs daily at 3 AM UTC
-  workflow_dispatch:      # Optional manual trigger
+    - cron: '4 4 * * *'  # Runs daily at 4:04 AM UTC
+  workflow_dispatch:     # Optional manual trigger
 
 jobs:
   update-doge-data:
@@ -37,7 +37,15 @@ jobs:
       run: |
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
-        git add data/doge_*_data.json
-        git diff --cached --quiet || git commit -m "Automated Doge data update"
+        git add -A # restages only what really changed, and idempotent (I had to Google that ... )
+        if git diff --cached --quiet; then
+          echo "No changes to commit"
+          exit 0
+        fi
+
+        # configure timestamp
+        TIMESTAMP=$(date -u)
+
+        git commit -m "Automated Doge data update: ${TIMESTAMP}"
         git push
 
