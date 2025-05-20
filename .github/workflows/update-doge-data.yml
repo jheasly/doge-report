@@ -23,7 +23,7 @@ jobs:
     - name: Sync from uv.lock
       run: uv sync --frozen # fails CI if the lockfile is out of date
 
-    - name: Run doge-data-download.py with different arguments, create .csv, .xlsx files
+    - name: Run doge-data-download.py with different arguments, create .csv files
       run: |
         cd data
         python doge-data-download.py grants --format csv
@@ -37,7 +37,7 @@ jobs:
         git config --global user.email "github-actions@users.noreply.github.com"
 
         # stage .csvs and .xlsxes
-        git add *.csv
+        git add -A
 
         if git diff --cached --quiet; then
           echo "No changes to commit"
